@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+<form method="post"  action="/his" style="padding-right: 18vw; padding-top: 2vw;" >
+
+    <div ><p id="name" style=" font-family: Tajawal-Regular; margin-bottom:4vw; color:#cdd6db; border-bottom-style: solid; padding-bottom: 1vw; border-color: #152833; font-weight: bold; font-size: 2vw;"  > {{p_name}} </p></div>
+    <div><p id="error" style="font-size: 1.5vw; color:red;"  >{{wrong}}</p></div>
+<div  >
+    
+    <select id="dates+" name="dates+" class="form-control" style="margin-top: 4vw; margin-bottom: .5vw ;border-color: #a9a9a9 ; width: 20vw ; height: 4vw ; font-size: 1.5vw ;border-radius: 1.5vw; color: white ;background-color: #152833;"  > 
+        <option disabled selected value="">Select Date</option>
+        {% for dates in dates %}
+        <option value="{{ dates }}">{{ dates }}</option>
+        {% endfor %}
+    </select>    
+
+    
+    
+    <button class="btn btn-primary" type="submit"  name="action" value="one" style= " border-radius: 1.5vw; margin-bottom: 0.7vw; font-size: 1.3vw; height: 4vw ; margin-left: 1vw; width: 14vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular'; ">نسخه فاتوره جديده</button>
+</div>
+<div style="margin-top: 4vw;" >
+    <button class="btn btn-primary" type="submit"  name="action" value="three" style= "  border-radius: 1.5vw; font-size: 1.3vw; height: 4vw ;  width: 17vw; background-color: #416baf; border-color: #416baf; font-family: 'Tajawal-Regular';  " hidden>تعديل الفاتوره بتاريخ جديد</button>
+
+</div>
+<div style="margin-top: 4vw;" >
+
+    <button class="btn btn-primary" type="submit"  name="action" value="two" style= "  border-radius: 1.5vw; font-size: 1.3vw; height: 4vw ;  width: 17vw; background-color: #882a2a; border-color: #882a2a; font-family: 'Tajawal-Regular';">حذف الفاتوره</button>
+
+</div> 
+    
+    
+</form>
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    history
+{% endblock %}
+
+{% block main %}
+<form name="myForm" action="/edit" method="post"style="padding-right: 18vw; padding-top: 10vw;" >
+
+<p id="error" style="margin-top:15vw; position:absolute; left: 30vw; color:rgb(0, 174, 255); font-size: 2vw;"  >{{wrong}}</p>
+
+<div>
+<button class="btn btn-primary" type="submit"  name="action" value="one" style= "  border-radius: 1.5vw;margin-bottom: 4vw; font-size: 1.3vw; height: 4vw ;  width: 17vw; background-color: #2a6788; border-color: #2a6788; font-family: 'Tajawal-Regular';">تعديل قائمة الدواء</button>
+</div>
+
+<div>
+<button class="btn btn-primary" type="submit"  name="action" value="two" style= "  border-radius: 1.5vw; font-size: 1.3vw; height: 4vw ;  width: 17vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular';">اضافة دواء جديد</button>
+</div>
+
+</form>
+<div id="body"></div>
+
+    <script>
+
+
+    </script>
+
+{% endblock %}

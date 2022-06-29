@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+
+    <form name="myForm" action="/" method="post" style="padding-right: 18vw; padding-top: 9vw;"  onkeydown="return event.key != 'Enter';" >
+      <div><p id="error" style="font-size: 1.5vw; color:red;"  >{{wrong}}</p></div>
+
+      <p id="done" style="margin-top:20px; font-family: 'Tajawal-Regular'; font-size: 2vw; color:green;"  >{{done}}</p>
+      <button onclick="myFunction()" type="submit" name="action" value="three" style= " border-radius: 1.5vw; font-size: 1.3vw; height: 3.5vw ;margin-right: 2vw; width: 6vw; background-color: #416baf; border-color: #416baf; font-family: 'Tajawal-Regular'; color: white;">نسخ</button>
+      <input list="patient_ids" name="patient_id" id="patient_id" value="{{p_d}}" placeholder=" ...الرقم القومي" class="form-control" autocomplete="off" style="text-align: right;margin-top:4vw; margin-bottom: 2.5vw ;border-color: #a9a9a9 ; width: 20vw ; height: 5vw ; font-size: 1.5vw ;border-radius: 1.5vw; background-color: #ffffff;">
+        <datalist id="patient_ids">
+            {% for patient_id in patient_id %}
+            <option value="{{ patient_id }}">
+            {% endfor %}
+        </datalist>
+        <div>
+        <button class="btn btn-primary" type="submit"  name="action" value="two" style= " border-radius: 1.5vw; margin-bottom: 0.7vw; font-size: 1.3vw; height: 4vw ; width: 14vw; background-color: #4c5c6d; border-color: #4c5c6d; font-family: 'Tajawal-Regular';">فاتوره قديمه</button>
+        <button class="btn btn-primary" type="submit"  name="action" value="one" style= " border-radius: 1.5vw; margin-bottom: 0.7vw; font-size: 1.3vw; height: 4vw ; margin-left: 1.5vw; width: 14vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular'; ">فاتوره جديده</button>
+
+      </div>
+
+      </form>
+
+      
+      
+
+    <script>
+      function myFunction() {
+  /* Get the text field */
+  var copyText = document.getElementById("patient_id");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+   /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
+  
+
+};
+
+
+
+    </script>
+      
+      
+
+
+    
+    
+    
+
+
+
+{% endblock %}

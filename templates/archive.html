@@ -1,0 +1,185 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+<form method="post"  action="/archive" style="padding-right: 18vw; padding-top: 10vw;" >
+
+  <div><p id="error" style="font-size: 1.5vw; color:red;"  >{{wrong}}</p></div>
+
+<div id="list" style= "padding-top: 4vw;" >
+    
+    
+</div>
+
+<div style="margin-top: 2vw;" >
+    <button class="btn btn-primary" type="submit"  name="action" value="one" style= "border-radius: 1.5vw; font-size: 1.3vw; height: 3vw ; width: 10vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular'; ">تأكيد</button>
+
+</div>
+
+    
+</form>
+
+<script>
+    var today = new Date();
+
+
+    
+    if (today.getMonth()+1 == 1){
+      var date =  (today.getFullYear()) +'-' +  "01";
+      var date2 =  (today.getFullYear() - 1) +'-' +  "12";
+      var date3 =  (today.getFullYear() - 1) +'-' +  '11';
+      var date4 =  (today.getFullYear() - 1) +'-' +  '10';
+      var date5 =  (today.getFullYear() - 1) +'-' +  '09';
+      var date6 =  (today.getFullYear() - 1) +'-' +  '08';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '07';  
+
+    }
+
+    else if (today.getMonth()+1 == 2){
+      var date =  (today.getFullYear()) +'-' +  "02";
+      var date2 =  (today.getFullYear()) +'-' +  "01";
+      var date3 =  (today.getFullYear() - 1) +'-' +  '12';
+      var date4 =  (today.getFullYear() - 1) +'-' +  '11';
+      var date5 =  (today.getFullYear() - 1) +'-' +  '10';
+      var date6 =  (today.getFullYear() - 1) +'-' +  '09';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '08';  
+
+    }
+
+    else if (today.getMonth()+1 == 3){
+      var date =  (today.getFullYear()) +'-' +  "03";
+      var date2 =  (today.getFullYear()) +'-' +  "02";
+      var date3 =  (today.getFullYear()) +'-' +  '01';
+      var date4 =  (today.getFullYear() - 1) +'-' +  '12';
+      var date5 =  (today.getFullYear() - 1) +'-' +  '11';
+      var date6 =  (today.getFullYear() - 1) +'-' +  '10';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '09';  
+
+    }
+
+    else if (today.getMonth()+1 == 4){
+      var date =  (today.getFullYear()) +'-' +  "04";
+      var date2 =  (today.getFullYear()) +'-' +  "03";
+      var date3 =  (today.getFullYear()) +'-' +  '02';
+      var date4 =  (today.getFullYear()) +'-' +  '01';
+      var date5 =  (today.getFullYear() - 1) +'-' +  '12';
+      var date6 =  (today.getFullYear() - 1) +'-' +  '11';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '10';  
+
+    }
+
+    else if (today.getMonth()+1 == 5){
+      var date =  (today.getFullYear()) +'-' +  "05";
+      var date2 =  (today.getFullYear()) +'-' +  "04";
+      var date3 =  (today.getFullYear()) +'-' +  '03';
+      var date4 =  (today.getFullYear()) +'-' +  '02';
+      var date5 =  (today.getFullYear()) +'-' +  '01';
+      var date6 =  (today.getFullYear() - 1) +'-' +  '12';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '11';  
+
+    }
+
+    else if (today.getMonth()+1 == 6){
+      var date =  (today.getFullYear()) +'-' +  "06";
+      var date2 =  (today.getFullYear()) +'-' +  "05";
+      var date3 =  (today.getFullYear()) +'-' +  '04';
+      var date4 =  (today.getFullYear()) +'-' +  '03';
+      var date5 =  (today.getFullYear()) +'-' +  '02';
+      var date6 =  (today.getFullYear()) +'-' +  '01';  
+      var date7 =  (today.getFullYear() - 1) +'-' +  '12';  
+
+    }
+
+    else if (today.getMonth()+1 == 7){
+      var date =  (today.getFullYear()) +'-' +  "07";
+      var date2 =  (today.getFullYear()) +'-' +  "06";
+      var date3 =  (today.getFullYear()) +'-' +  '05';
+      var date4 =  (today.getFullYear()) +'-' +  '04';
+      var date5 =  (today.getFullYear()) +'-' +  '03';
+      var date6 =  (today.getFullYear()) +'-' +  '02';  
+      var date7 =  (today.getFullYear()) +'-' +  '01';  
+
+    }
+
+    else if (today.getMonth()+1 == 8){
+      var date =  (today.getFullYear()) +'-' +  "08";
+      var date2 =  (today.getFullYear()) +'-' +  "07";
+      var date3 =  (today.getFullYear()) +'-' +  '06';
+      var date4 =  (today.getFullYear()) +'-' +  '05';
+      var date5 =  (today.getFullYear()) +'-' +  '04';
+      var date6 =  (today.getFullYear()) +'-' +  '03';  
+      var date7 =  (today.getFullYear()) +'-' +  '02';  
+
+    }
+
+    else if (today.getMonth()+1 == 9){
+      var date =  (today.getFullYear()) +'-' +  "09";
+      var date2 =  (today.getFullYear()) +'-' +  "08";
+      var date3 =  (today.getFullYear()) +'-' +  '07';
+      var date4 =  (today.getFullYear()) +'-' +  '06';
+      var date5 =  (today.getFullYear()) +'-' +  '05';
+      var date6 =  (today.getFullYear()) +'-' +  '04';  
+      var date7 =  (today.getFullYear()) +'-' +  '03';  
+
+    }
+
+    else if (today.getMonth()+1 == 10){
+      var date =  (today.getFullYear()) +'-' +  "10";
+      var date2 =  (today.getFullYear()) +'-' +  "09";
+      var date3 =  (today.getFullYear()) +'-' +  '08';
+      var date4 =  (today.getFullYear()) +'-' +  '07';
+      var date5 =  (today.getFullYear()) +'-' +  '06';
+      var date6 =  (today.getFullYear()) +'-' +  '05';  
+      var date7 =  (today.getFullYear()) +'-' +  '04';  
+
+    }
+
+    else if (today.getMonth()+1 == 11){
+      var date =  (today.getFullYear()) +'-' +  "11";
+      var date2 =  (today.getFullYear()) +'-' +  "10";
+      var date3 =  (today.getFullYear()) +'-' +  '09';
+      var date4 =  (today.getFullYear()) +'-' +  '08';
+      var date5 =  (today.getFullYear()) +'-' +  '07';
+      var date6 =  (today.getFullYear()) +'-' +  '06';  
+      var date7 =  (today.getFullYear()) +'-' +  '05';  
+
+    }
+
+    else if (today.getMonth()+1 == 12){
+      var date =  (today.getFullYear()) +'-' +  "12";
+      var date2 =  (today.getFullYear()) +'-' +  "11";
+      var date3 =  (today.getFullYear()) +'-' +  '10';
+      var date4 =  (today.getFullYear()) +'-' +  '09';
+      var date5 =  (today.getFullYear()) +'-' +  '08';
+      var date6 =  (today.getFullYear()) +'-' +  '07';  
+      var date7 =  (today.getFullYear()) +'-' +  '06';  
+
+    }
+
+    var month = date2 + date3 + date4 ;
+
+      var code = `<select id="dateselect" name="dateselect" class="form-control" style="border-color: #a9a9a9 ; width: 20vw ; height: 5vw ; font-size: 1.5vw ;border-radius: 1.5vw; color: white ;background-color: #152833; font-family: 'Tajawal-Regular'"  > 
+        <option disabled selected value="">Select Date</option>
+        <option value="3_mon`+month+`">الثلاثة أشهر الاخيره</option>
+        <option value="`+date+`">`+date+`</option>
+        <option value="`+date2+`">`+(date2)+`</option>
+        <option value="`+date3+`">`+(date3)+`</option>
+        <option value="`+date4+`">`+(date4)+`</option>
+        <option value="`+date5+`">`+(date5)+`</option>
+        <option value="`+date6+`">`+(date6)+`</option>
+        <option value="`+date7+`">`+(date7)+`</option>
+
+    </select> `;
+ ;
+      
+      document.getElementById("list").innerHTML =  code;
+      
+</script>
+
+{% endblock %}
+
+
+

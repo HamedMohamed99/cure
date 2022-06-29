@@ -1,0 +1,1265 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+<style>
+  input[type=text] {
+    padding: 0px 0px;
+    margin: 0px 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+ 
+  body {
+    position: absolute;
+    left: 0px;
+    background-color: white;
+  }
+</style>
+<p id="error" style="margin-top:20px; color:red;"  >{{wrong}}</p>
+<form method="post" id ="printableArea" >
+
+<img src="/static/logo.jpg" style="width:90%; margin-bottom: 1vw;">
+
+<div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;" >
+  <input class="form-control" value="العلاج" type="Text"  style="width:18%; margin-top: 0.5vw;font-size: 100%;color: black;font-weight: bold; margin-right:2%; margin-left: 3.4%; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled >
+  <input class="form-control" value="العدد" type="Text"  style=" width:7.5%; font-weight: bold; color: black; font-size: 1vw; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control" value="سعر الشراء" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control" value="سعر البيع" type="Text"  style=" width:7.5%; font-weight: bold; font-size: 0.9vw;color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control" value="%قيمة7" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control" value="الاجمالي" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control" value="الكود" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+  <input class="form-control"  value="{{ p_name }}" type="text"  style=" width:16%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled >
+
+</div>
+
+<div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;" >
+    <label for="med_1" style="width: 3%;">1 </label>
+    <input list="med_names"  name="med_1" id="med_1"class="form-control" value="{{ med_1_def }}" onclick="this.select();" type="Text" autocomplete="off" style="width:18%; margin-top: 0.5vw;font-size: 1vw;color: black;font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update1();">
+    <datalist id="med_names" style="font-size: 1vw;color: black;font-weight: bold;" >
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_1_n" name="med_1_n" class="form-control" placeholder="num" type="number"  min="0" onclick="this.select();" value="{{ med_1_n_def }}" style=" width:7.5%;font-weight: bold;color: black; font-size: 1vw; " onChange="update1();" >
+    <input id="buy_1" class="form-control" name="buy_1" value="" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black;"  readonly="readonly" >
+    <input id="sell_1" class="form-control" name="sell_1" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw;color: black;"  readonly="readonly" >
+    <input id="7_1" class="form-control" name="7_1" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black;"  readonly="readonly" >
+    <input id="buy_price_1" class="form-control" name="buy_price_1" value="" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black;"  readonly="readonly" >
+    <input id="code_1" class="form-control" name="code_1" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black;"  readonly="readonly" >
+    <input id="date" class="form-control" name="date" type="text"  style=" width:16%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; text-align: center;background-color: #ffffff;" readonly="readonly" >
+  </div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    <label for="med_2" style="width: 3%;">2 </label>
+    <input list="med_names" name="med_2" id="med_2"class="form-control" value="{{ med_2_def }}" onclick="this.select();" type="Text" autocomplete="off" value="{{ med_2_n_def }}" style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update2()">
+    <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_2_n" name="med_2_n" class="form-control"  placeholder="num" type="number"  onclick="this.select();"  min="0" value="{{ med_2_n_def }}"  style=" width:7.5%;color: black; font-weight: bold;font-size: 1vw;" onChange="update2();" >
+    <input id="buy_2" class="form-control" name="buy_2" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_2" class="form-control" name="sell_2" value="" type="Text"  style=" width:7.5%;  font-size: 0.9vw;color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_2" class="form-control" name="7_2" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_2" class="form-control" name="buy_price_2" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_2" class="form-control" name="code_2" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold; margin-right: 18.4%;"  readonly="readonly" >  
+    
+    <input id="rec_num" class="form-control" name="rec_num" value="0" placeholder="رقم السجل" type="number"  style=" width:11.5%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; text-align: center;" onChange="updatepro();" hidden>
+    <h  style=" width:7.5%; margin-left:0.5%;  font-size: 1vw; font-family: 'Tajawal-Regular';" hidden >: رقم السجل</h>
+  </div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    
+    <label for="med_3" style="width: 3%;">3 </label>
+    <input list="med_names" name="med_3" id="med_3"class="form-control" value="{{ med_3_def }}" onclick="this.select();" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update3()">
+    <datalist id="med_names" style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_3_n" name="med_3_n" class="form-control"  placeholder="num" type="number" onclick="this.select();"  min="0" value="{{ med_3_n_def }}" style=" width:7.5%;color: black; font-weight: bold; font-size: 1vw;"onChange="update3();" >
+    <input id="buy_3" class="form-control" name="buy_3" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_3" class="form-control" name="sell_3" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_3" class="form-control" name="7_3" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_3" class="form-control" name="buy_price_3" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_3" class="form-control" name="code_3" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    
+    <input id="dec_num" class="form-control" name="dec_num" value="{{dec_num_def}}" placeholder="رقم القرار" type="Text"  style=" width:7.6%;color: black; font-weight: bold;font-size: 1vw; margin-left:2%;" onChange="updatepro();" >
+    <input class="form-control" value=": رقم القرار" type="Text"  style=" width:8%; font-size: 1vw; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+
+  </div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    
+    <label for="med_4" style="width: 3%;">4 </label>
+    <input list="med_names" name="med_4" id="med_4"class="form-control" value="{{ med_4_def }}" onclick="this.select();" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update4()">
+    <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_4_n" name="med_4_n" class="form-control"  placeholder="num" type="number" onclick="this.select();"  min="0" value="{{ med_4_n_def }}" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update4();" >
+    <input id="buy_4" class="form-control" name="buy_4" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_4" class="form-control" name="sell_4" value="" type="Text"  style=" width:7.5%;font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_4" class="form-control" name="7_4" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_4" class="form-control" name="buy_price_4" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_4" class="form-control" name="code_4" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+    <select id="section" name="section" class="form-control" type="Text"  value="{{section_def}}" style=" width:16%; margin-left:2%;color: black; font-weight: bold; font-size: 0.9vw; text-align: center;">
+      <option selected value="{{section_def}}">{{section_def}}</option>
+      <option value="باطنى">باطنى</option>
+      <option value="عظام">عظام</option>
+      <option value="قلب واوعية دمويه ">قلب واوعية دمويه </option>
+      <option value="كبد وجهاز هضمي">كبد وجهاز هضمي</option>
+      <option value="نفسيه وعصيبه">نفسيه وعصيبه</option>
+      <option value="كلي وجهاز هضمي ">كلي وجهاز هضمي </option>
+      
+  </select>
+</div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    
+    <label for="med_5" style="width: 3%;">5 </label>
+    <input list="med_names" name="med_5" id="med_5"class="form-control" value="{{ med_5_def }}" onclick="this.select();" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update5()">
+    <datalist id="med_names" style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_5_n" name="med_5_n" class="form-control"  placeholder="num" type="number" onclick="this.select();" min="0" value="{{ med_5_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update5();">
+    <input id="buy_5" class="form-control" name="buy_5" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_5" class="form-control" name="sell_5" value="" type="Text"  style=" width:7.5%;font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_5" class="form-control" name="7_5" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_5" class="form-control" name="buy_price_5" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_5" class="form-control" name="code_5" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+    <select id="pharmacist" name="pharmacist" class="form-control" type="Text" value="{{pharmacist_def}}" style=" width:16%; margin-left:2%; color: black; font-weight: bold;font-size: 1vw;text-align: center; font-family: 'Tajawal-Regular';"  >
+      <option selected value="{{pharmacist_def}}">{{pharmacist_def}}</option>
+      <option value="د. ايمان عيسي">د. ايمان عيسي</option>
+      <option value="د.ايمان غباشي">د.ايمان غباشي</option>
+      <option value="د.اماني اشرف">د.اماني اشرف</option>
+      <option value="د.بسمة السباعي">د.بسمة السباعي</option>
+      <option value="د.عبير علامه">د.عبير علامه</option>
+      <option value="د.نرمين يحي">د.نرمين يحي</option>
+      <option value="د.دعاء الخرادلي">د.دعاء الخرادلي</option>
+      <option value="د.ساره بسيوني">د.ساره بسيوني</option>
+      <option value="د.محمود بدوي">د.محمود بدوي</option>
+      <option value="د.زين الدمنهوري">د.زين الدمنهوري</option>
+      <option value="د.محمد شلتوت">د.محمد شلتوت</option>
+      <option value="د.سمر غراب">د.سمر غراب</option>
+      <option value="د.سارة حمدان">د.سارة حمدان</option>      
+  </select>
+</div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    <label for="med_6"style="width: 3%;">6 </label>
+    <input list="med_names" name="med_6" id="med_6"class="form-control" type="Text" value="{{ med_6_def }}" onclick="this.select();" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update6()">
+    <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_6_n" name="med_6_n" class="form-control" placeholder="num" type="number" onclick="this.select();"  min="0" value="{{ med_6_n_def }}" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update6();">
+    <input id="buy_6" class="form-control" name="buy_6" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_6" class="form-control" name="sell_6" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_6" class="form-control" name="7_6" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_6" class="form-control" name="buy_price_6" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_6" class="form-control" name="code_6" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+    <select id="credit" name="credit" class="form-control"  type="number" value="{{credit_def}}" style="width:7.4%;color: black; font-weight: bold;font-size: 1vw; margin-left:2%; text-align: center;" onChange="updatepro();" >
+      <option selected value="{{credit_def}}">{{credit_def}}</option>
+      <option value="100">100</option>
+      <option value="120">120</option>
+      <option value="150">150</option>
+      <option value="200">200</option>
+      <option value="250">250</option>
+      <option value="300">300</option>
+      <option value="350">350</option>
+      <option value="400">400</option>
+      <option value="450">450</option>
+      <option value="600">600</option>
+      <option value="610">610</option>
+      <option value="620">620</option>
+      <option value="630">630</option>
+      <option value="640">640</option>
+      <option value="650">650</option>
+      <option value="660">660</option>
+      <option value="670">670</option>
+      <option value="680">680</option>
+      <option value="690">690</option>
+      <option value="700">700</option>
+      <option value="710">710</option>
+      <option value="720">720</option>
+      <option value="730">730</option>
+      <option value="740">740</option>
+      <option value="750">750</option>
+      <option value="760">760</option>
+      <option value="770">770</option>
+      <option value="780">780</option>
+      <option value="790">790</option>
+      <option value="800">800</option>
+      
+      
+  </select>  
+  <input class="form-control" value=": مبلغ القرار" type="Text"  style=" width:8.2%; font-size: 1vw; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+</div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    <label for="med_7"style="width: 3%;">7 </label>
+    <input list="med_names" name="med_7" id="med_7"class="form-control" type="Text" value="{{ med_7_def }}" onclick="this.select();" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update7()">
+    <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_7_n" name="med_7_n" class="form-control"  placeholder="num" type="number" onclick="this.select();" min="0" value="{{ med_7_n_def }}" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update7();" >
+    <input id="buy_7" class="form-control" name="buy_7" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_7" class="form-control" name="sell_7" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_7" class="form-control" name="7_7" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_7" class="form-control" name="buy_price_7" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_7" class="form-control" name="code_7" value="" type="Text"   style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+    <input id="note" class="form-control" name="note" placeholder="ملاحظات" value="{{note_def}}" type="Text"  style=" width:16%; margin-left:2%;font-size: 1vw;color: black; font-weight: bold;"  >
+  </div>
+
+  <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+    <label for="med_8" style="width: 3%;">8 </label>
+    <input list="med_names" name="med_8" id="med_8"class="form-control" type="Text" value="{{ med_8_def }}" onclick="this.select();" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update8()">
+    <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+        {% for med_name in med_name %}
+        <option value="{{ med_name }}">
+        {% endfor %}
+    </datalist>
+    <input id="med_8_n" name="med_8_n" class="form-control"  placeholder="num" type="number"onclick="this.select();" min="0" value="{{ med_8_n_def }}" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update8();">
+    <input id="buy_8" class="form-control" name="buy_8" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="sell_8" class="form-control" name="sell_8" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="7_8" class="form-control" name="7_8" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="buy_price_8" class="form-control" name="buy_price_8" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+    <input id="code_8" class="form-control" name="code_8" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; margin-right:1vw; color: black;font-weight: bold;"  readonly="readonly" >  
+    <input class="form-control" value="Total :" type="Text"  style=" width:5%; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+    <input id="total" class="form-control" name="total" value="Total" type="Text"  style=" width:11%; font-size: 1vw; background-color: #90d79e; color: rgb(0, 0, 0);font-weight: bold;"  readonly="readonly" >
+
+  </div>
+
+    <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+      <label for="med_9"style="width: 3%;">9</label>
+      <input list="med_names" name="med_9" id="med_9"class="form-control" type="Text" onclick="this.select();" value="{{ med_9_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update9()">
+      <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+          {% for med_name in med_name %}
+          <option value="{{ med_name }}">
+          {% endfor %}
+      </datalist>
+      <input id="med_9_n" name="med_9_n" class="form-control"  placeholder="num" type="number" onclick="this.select();"  min="0" value="{{ med_9_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update9();">
+      <input id="buy_9" class="form-control" name="buy_9" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+      <input id="sell_9" class="form-control" name="sell_9" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+      <input id="7_9" class="form-control" name="7_9" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+      <input id="buy_price_9" class="form-control" name="buy_price_9" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+      <input id="code_9" class="form-control" name="code_9" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+    </div>
+  
+      <div name="myForm" action="/rec"style="font-size: 1vw;color: black; font-weight: bold;">
+        <label for="med_10" style="width: 3%;">10</label>
+        <input list="med_names" name="med_10" id="med_10"class="form-control" type="Text" onclick="this.select();" value="{{ med_10_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update10()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_10_n" name="med_10_n" class="form-control"  placeholder="num" type="number" onclick="this.select();" min="0" value="{{ med_10_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update10();">
+        <input id="buy_10" class="form-control" name="buy_10" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_10" class="form-control" name="sell_10" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_10" class="form-control" name="7_10" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_10" class="form-control" name="buy_price_10" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_10" class="form-control" name="code_10" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+      </div>
+    
+        <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+          <label for="med_11" style="width: 3%;">11</label>
+          <input list="med_names" name="med_11" id="med_11"class="form-control" type="Text" onclick="this.select();" value="{{ med_11_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update11()">
+          <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+              {% for med_name in med_name %}
+              <option value="{{ med_name }}">
+              {% endfor %}
+          </datalist>
+          <input id="med_11_n" name="med_11_n" class="form-control"  placeholder="num" type="number" onclick="this.select();"  min="0" value="{{ med_11_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update11();">
+          <input id="buy_11" class="form-control" name="buy_11" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="sell_11" class="form-control" name="sell_11" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="7_11" class="form-control" name="7_11" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="buy_price_11" class="form-control" name="buy_price_11" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="code_11" class="form-control" name="code_11" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        </div>
+      
+          <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+            <label for="med_12" style="width: 3%;">12</label>
+            <input list="med_names" name="med_12" id="med_12"class="form-control" type="Text" onclick="this.select();" value="{{ med_12_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update12()">
+            <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                {% for med_name in med_name %}
+                <option value="{{ med_name }}">
+                {% endfor %}
+            </datalist>
+            <input id="med_12_n" name="med_12_n" class="form-control"  placeholder="num" type="number" onclick="this.select();" min="0" value="{{ med_12_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update12();">
+            <input id="buy_12" class="form-control" name="buy_12" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="sell_12" class="form-control" name="sell_12" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="7_12" class="form-control" name="7_12" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="buy_price_12" class="form-control" name="buy_price_12" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="code_12" class="form-control" name="code_12" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >  
+          </div>
+
+            
+            <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+              <label for="med_13" style="width: 3%;">13</label>
+              <input list="med_names" name="med_13" id="med_13"class="form-control" type="Text" onclick="this.select();" value="{{ med_13_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update13()">
+              <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                  {% for med_name in med_name %}
+                  <option value="{{ med_name }}">
+                  {% endfor %}
+              </datalist>
+              <input id="med_13_n" name="med_13_n" class="form-control"  placeholder="num" onclick="this.select();" type="number" min="0" value="{{ med_13_n_def }}" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update13();">
+              <input id="buy_13" class="form-control" name="buy_13" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="sell_13" class="form-control" name="sell_13" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="7_13" class="form-control" name="7_13" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="buy_price_13" class="form-control" name="buy_price_13" value="" type="Text"  style=" width:7.5%;; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="code_13" class="form-control" name="code_13" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%;font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+            </div>
+    
+              
+            <div name="myForm" action="/rec"style="font-size: 1vw;color: black; font-weight: bold;">
+              <label for="med_14" style="width: 3%;">14</label>
+              <input list="med_names" name="med_14" id="med_14"class="form-control" type="Text" onclick="this.select();" value="{{ med_14_def }}" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update14()">
+              <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                  {% for med_name in med_name %}
+                  <option value="{{ med_name }}">
+                  {% endfor %}
+              </datalist>
+              <input id="med_14_n" name="med_14_n" class="form-control"  placeholder="num" onclick="this.select();" type="number"  min="0" value="{{ med_14_n_def }}" style=" width:7.5%; ;font-size: 1vw;color: black; font-weight: bold;" onChange="update14();">
+              <input id="buy_14" class="form-control" name="buy_14" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="sell_14" class="form-control" name="sell_14" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="7_14" class="form-control" name="7_14" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="buy_price_14" class="form-control" name="buy_price_14" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="code_14" class="form-control" name="code_14" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >  
+            </div>
+          
+              
+      
+
+<div name="myForm" action="/rec"  style=" margin-top: 2vw;" >
+
+  <button id="h" name="h"   class="btn btn-primary" type="submit"  onclick="updatecopy()">Save and Print</button>    
+</div>
+</form>
+<form id="print_copy" hidden>
+
+
+    <img src="/static/logo.jpg" style="width:90%; margin-bottom: 1vw;">
+    
+    <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;" >
+      <input class="form-control" value="العلاج" type="Text"  style="width:18%; margin-top: 0.5vw;font-size: 100%;color: black;font-weight: bold; margin-right:2%; margin-left: 3.4%; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled >
+      <input class="form-control" value="العدد" type="Text"  style=" width:7.5%; font-weight: bold; color: black; font-size: 1vw; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control" value="سعر الشراء" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control" value="سعر البيع" type="Text"  style=" width:7.5%; font-weight: bold; font-size: 0.9vw;color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control" value="%قيمة7" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control" value="الاجمالي" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control" value="الكود" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+      <input class="form-control"  value="{{ p_name }}" type="text"  style=" width:16%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled >
+    
+    </div>
+    
+    <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;" >
+        <label for="med_1" style="width: 3%;">1 </label>
+        <input list="med_names"  name="med_1+" id="med_1+"class="form-control" type="Text" autocomplete="off" style="width:18%; margin-top: 0.5vw;font-size: 1vw;color: black;font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update1();">
+        <datalist id="med_names" style="font-size: 1vw;color: black;font-weight: bold;" >
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_1_n+" name="med_1_n+" class="form-control" placeholder="num" type="number" value="0" min="0" style=" width:7.5%;font-weight: bold;color: black; font-size: 1vw; " onChange="update1();" >
+        <input id="buy_1+" class="form-control" name="buy_1+" value="" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black;"  readonly="readonly" >
+        <input id="sell_1+" class="form-control" name="sell_1+" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw;color: black;"  readonly="readonly" >
+        <input id="7_1+" class="form-control" name="7_1+" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black;"  readonly="readonly" >
+        <input id="buy_price_1+" class="form-control" name="buy_price_1+" value="" type="Text"  style=" width:7.5%; font-weight: bold;font-size: 0.9vw; color: black;"  readonly="readonly" >
+        <input id="code_1+" class="form-control" name="code_1+" value="" type="Text"  style=" width:7.5%;font-weight: bold; font-size: 0.9vw; color: black;"  readonly="readonly" >
+        <input id="date+" class="form-control" name="date+" type="text"  style=" width:16%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; text-align: center;background-color: #ffffff;" readonly="readonly" >
+      </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        <label for="med_2" style="width: 3%;">2 </label>
+        <input list="med_names" name="med_2+" id="med_2+"class="form-control" type="Text" autocomplete="off" style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update2()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_2_n+" name="med_2_n+" class="form-control"  placeholder="num" type="number"  value="0" min="0" style=" width:7.5%;color: black; font-weight: bold;font-size: 1vw;" onChange="update2();" >
+        <input id="buy_2+" class="form-control" name="buy_2+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_2+" class="form-control" name="sell_2+" value="" type="Text"  style=" width:7.5%;  font-size: 0.9vw;color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_2+" class="form-control" name="7_2+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_2+" class="form-control" name="buy_price_2+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_2+" class="form-control" name="code_2+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold; margin-right: 18.4%;"  readonly="readonly" >  
+        
+        <input id="rec_num+" class="form-control" name="rec_num+" value="0" placeholder="رقم السجل" type="number"  style=" width:11.5%;font-weight: bold;color: black;font-size: 1vw; margin-left:2%; text-align: center;" onChange="updatepro();" hidden>
+        <h  style=" width:7.5%; margin-left:0.5%;  font-size: 1vw; font-family: 'Tajawal-Regular';" hidden >: رقم السجل</h>
+      </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        
+        <label for="med_3" style="width: 3%;">3 </label>
+        <input list="med_names" name="med_3+" id="med_3+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update3()">
+        <datalist id="med_names" style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_3_n+" name="med_3_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%;color: black; font-weight: bold; font-size: 1vw;"onChange="update3();" >
+        <input id="buy_3+" class="form-control" name="buy_3+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_3+" class="form-control" name="sell_3+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_3+" class="form-control" name="7_3+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_3+" class="form-control" name="buy_price_3+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_3+" class="form-control" name="code_3+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        
+        <input id="dec_num+" class="form-control" name="dec_num+" value="0" placeholder="رقم القرار" type="Text"  style=" width:7.6%;color: black; font-weight: bold;font-size: 1vw; margin-left:2%;" onChange="updatepro();" >
+        <input class="form-control" value=": رقم القرار" type="Text"  style=" width:8%; font-size: 1vw; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+    
+      </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        
+        <label for="med_4" style="width: 3%;">4 </label>
+        <input list="med_names" name="med_4+" id="med_4+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update4()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_4_n+" name="med_4_n+" class="form-control"  placeholder="num" type="number"value="0"  min="0" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update4();" >
+        <input id="buy_4+" class="form-control" name="buy_4+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_4+" class="form-control" name="sell_4+" value="" type="Text"  style=" width:7.5%;font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_4+" class="form-control" name="7_4+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_4+" class="form-control" name="buy_price_4+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_4+" class="form-control" name="code_4+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        <select id="section+" name="section+" class="form-control" type="Text"  value="القسم" style=" width:16%; margin-left:2%;color: black; font-weight: bold; font-size: 0.9vw; text-align: center;">
+          <option selected value="القسم">القسم</option>
+          <option value="باطنى">باطنى</option>
+          <option value="عظام">عظام</option>
+          <option value="قلب واوعية دمويه ">قلب واوعية دمويه </option>
+          <option value="كبد وجهاز هضمي">كبد وجهاز هضمي</option>
+          <option value="نفسيه وعصيبه">نفسيه وعصيبه</option>
+          <option value="كلي وجهاز هضمي ">كلي وجهاز هضمي </option>
+          
+      </select>
+    </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        
+        <label for="med_5" style="width: 3%;">5 </label>
+        <input list="med_names" name="med_5+" id="med_5+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update5()">
+        <datalist id="med_names" style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_5_n+" name="med_5_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update5();">
+        <input id="buy_5+" class="form-control" name="buy_5+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_5+" class="form-control" name="sell_5+" value="" type="Text"  style=" width:7.5%;font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_5+" class="form-control" name="7_5+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_5+" class="form-control" name="buy_price_5+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_5+" class="form-control" name="code_5+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        <select id="pharmacist+" name="pharmacist+" class="form-control" type="Text" value="الصيدلي" style=" width:16%; margin-left:2%; color: black; font-weight: bold;font-size: 1vw;text-align: center; font-family: 'Tajawal-Regular';"  >
+          <option selected value="الصيدلي">الصيدلي</option>
+          <option value="د. ايمان عيسي">د. ايمان عيسي</option>
+          <option value="د.ايمان غباشي">د.ايمان غباشي</option>
+          <option value="د.اماني اشرف">د.اماني اشرف</option>
+          <option value="د.بسمة السباعي">د.بسمة السباعي</option>
+          <option value="د.عبير علامه">د.عبير علامه</option>
+          <option value="د.نرمين يحي">د.نرمين يحي</option>
+          <option value="د.دعاء الخرادلي">د.دعاء الخرادلي</option>
+          <option value="د.ساره بسيوني">د.ساره بسيوني</option>
+          <option value="د.محمود بدوي">د.محمود بدوي</option>
+          <option value="د.زين الدمنهوري">د.زين الدمنهوري</option>
+          <option value="د.محمد شلتوت">د.محمد شلتوت</option>
+          <option value="د.سمر غراب">د.سمر غراب</option>
+          <option value="د.سارة حمدان">د.سارة حمدان</option>      
+      </select>
+    </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        <label for="med_6"style="width: 3%;">6 </label>
+        <input list="med_names" name="med_6+" id="med_6+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update6()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_6_n+" name="med_6_n+" class="form-control" placeholder="num" type="number" value="0" min="0" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update6();">
+        <input id="buy_6+" class="form-control" name="buy_6+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_6+" class="form-control" name="sell_6+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_6+" class="form-control" name="7_6+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_6+" class="form-control" name="buy_price_6+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_6+" class="form-control" name="code_6+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        <select id="credit+" name="credit+" class="form-control"  type="number" value="350" style="width:7.4%;color: black; font-weight: bold;font-size: 1vw; margin-left:2%; text-align: center;" onChange="updatepro();" >
+          <option selected value="350">350</option>
+          <option value="100">100</option>
+          <option value="120">120</option>
+          <option value="150">150</option>
+          <option value="200">200</option>
+          <option value="250">250</option>
+          <option value="300">300</option>
+          <option value="350">350</option>
+          <option value="400">400</option>
+          <option value="450">450</option>
+          <option value="600">600</option>
+          <option value="610">610</option>
+          <option value="620">620</option>
+          <option value="630">630</option>
+          <option value="640">640</option>
+          <option value="650">650</option>
+          <option value="660">660</option>
+          <option value="670">670</option>
+          <option value="680">680</option>
+          <option value="690">690</option>
+          <option value="700">700</option>
+          <option value="710">710</option>
+          <option value="720">720</option>
+          <option value="730">730</option>
+          <option value="740">740</option>
+          <option value="750">750</option>
+          <option value="760">760</option>
+          <option value="770">770</option>
+          <option value="780">780</option>
+          <option value="790">790</option>
+          <option value="800">800</option>
+          
+          
+      </select>  
+      <input class="form-control" value=": مبلغ القرار" type="Text"  style=" width:8.2%; font-size: 1vw; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+    </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        <label for="med_7"style="width: 3%;">7 </label>
+        <input list="med_names" name="med_7+" id="med_7+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update7()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_7_n+" name="med_7_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update7();" >
+        <input id="buy_7+" class="form-control" name="buy_7+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_7+" class="form-control" name="sell_7+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_7+" class="form-control" name="7_7+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_7+" class="form-control" name="buy_price_7+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_7+" class="form-control" name="code_7+" value="" type="Text"   style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        <input id="note+" class="form-control" name="note+" placeholder="ملاحظات" type="Text"  style=" width:16%; margin-left:2%;font-size: 1vw;color: black; font-weight: bold;"  >
+      </div>
+    
+      <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+        <label for="med_8" style="width: 3%;">8 </label>
+        <input list="med_names" name="med_8+" id="med_8+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update8()">
+        <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+            {% for med_name in med_name %}
+            <option value="{{ med_name }}">
+            {% endfor %}
+        </datalist>
+        <input id="med_8_n+" name="med_8_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%;font-size: 1vw;color: black; font-weight: bold;" onChange="update8();">
+        <input id="buy_8+" class="form-control" name="buy_8+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="sell_8+" class="form-control" name="sell_8+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="7_8+" class="form-control" name="7_8+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="buy_price_8+" class="form-control" name="buy_price_8+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+        <input id="code_8+" class="form-control" name="code_8+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; margin-right:1vw; color: black;font-weight: bold;"  readonly="readonly" >  
+        <input class="form-control" value="Total :" type="Text"  style=" width:5%; font-weight: bold; border-color: white; color: black; background-color: #ffffff; font-family: 'Tajawal-Regular';"  disabled>
+        <input id="total+" class="form-control" name="total+" value="Total" type="Text"  style=" width:11%; font-size: 1vw; background-color: #90d79e; color: rgb(0, 0, 0);font-weight: bold;"  readonly="readonly" >
+    
+      </div>
+    
+        <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+          <label for="med_9"style="width: 3%;">9</label>
+          <input list="med_names" name="med_9+" id="med_9+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update9()">
+          <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+              {% for med_name in med_name %}
+              <option value="{{ med_name }}">
+              {% endfor %}
+          </datalist>
+          <input id="med_9_n+" name="med_9_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update9();">
+          <input id="buy_9+" class="form-control" name="buy_9+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="sell_9+" class="form-control" name="sell_9+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="7_9+" class="form-control" name="7_9+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="buy_price_9+" class="form-control" name="buy_price_9+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+          <input id="code_9+" class="form-control" name="code_9+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+        </div>
+      
+          <div name="myForm" action="/rec"style="font-size: 1vw;color: black; font-weight: bold;">
+            <label for="med_10" style="width: 3%;">10</label>
+            <input list="med_names" name="med_10+" id="med_10+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update10()">
+            <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                {% for med_name in med_name %}
+                <option value="{{ med_name }}">
+                {% endfor %}
+            </datalist>
+            <input id="med_10_n+" name="med_10_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update10();">
+            <input id="buy_10+" class="form-control" name="buy_10+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="sell_10+" class="form-control" name="sell_10+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="7_10+" class="form-control" name="7_10+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="buy_price_10+" class="form-control" name="buy_price_10+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+            <input id="code_10+" class="form-control" name="code_10+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+          </div>
+        
+            <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+              <label for="med_11" style="width: 3%;">11</label>
+              <input list="med_names" name="med_11+" id="med_11+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update11()">
+              <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                  {% for med_name in med_name %}
+                  <option value="{{ med_name }}">
+                  {% endfor %}
+              </datalist>
+              <input id="med_11_n+" name="med_11_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update11();">
+              <input id="buy_11+" class="form-control" name="buy_11+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="sell_11+" class="form-control" name="sell_11+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="7_11+" class="form-control" name="7_11+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="buy_price_11+" class="form-control" name="buy_price_11+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+              <input id="code_11+" class="form-control" name="code_11+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+            </div>
+          
+              <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+                <label for="med_12" style="width: 3%;">12</label>
+                <input list="med_names" name="med_12+" id="med_12+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update12()">
+                <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                    {% for med_name in med_name %}
+                    <option value="{{ med_name }}">
+                    {% endfor %}
+                </datalist>
+                <input id="med_12_n+" name="med_12_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update12();">
+                <input id="buy_12+" class="form-control" name="buy_12+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                <input id="sell_12+" class="form-control" name="sell_12+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                <input id="7_12+" class="form-control" name="7_12+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                <input id="buy_price_12+" class="form-control" name="buy_price_12+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                <input id="code_12+" class="form-control" name="code_12+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >  
+              </div>
+    
+                
+                <div name="myForm" action="/rec" style="font-size: 1vw;color: black; font-weight: bold;">
+                  <label for="med_13" style="width: 3%;">13</label>
+                  <input list="med_names" name="med_13+" id="med_13+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular'; " onChange="update13()">
+                  <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                      {% for med_name in med_name %}
+                      <option value="{{ med_name }}">
+                      {% endfor %}
+                  </datalist>
+                  <input id="med_13_n+" name="med_13_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; font-size: 1vw;color: black; font-weight: bold;" onChange="update13();">
+                  <input id="buy_13+" class="form-control" name="buy_13+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="sell_13+" class="form-control" name="sell_13+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="7_13+" class="form-control" name="7_13+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="buy_price_13+" class="form-control" name="buy_price_13+" value="" type="Text"  style=" width:7.5%;; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="code_13+" class="form-control" name="code_13+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%;font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" > 
+                </div>
+        
+                  
+                <div name="myForm" action="/rec"style="font-size: 1vw;color: black; font-weight: bold;">
+                  <label for="med_14" style="width: 3%;">14</label>
+                  <input list="med_names" name="med_14+" id="med_14+"class="form-control" type="Text" autocomplete="off"  style=" width:18%; margin-top:0.5vw;font-size: 1vw;color: black; font-weight: bold; margin-right:2%; font-family: 'Tajawal-Regular';" onChange="update14()">
+                  <datalist id="med_names"style="font-size: 1vw;color: black; font-weight: bold;">
+                      {% for med_name in med_name %}
+                      <option value="{{ med_name }}">
+                      {% endfor %}
+                  </datalist>
+                  <input id="med_14_n+" name="med_14_n+" class="form-control"  placeholder="num" type="number" value="0" min="0" style=" width:7.5%; ;font-size: 1vw;color: black; font-weight: bold;" onChange="update14();">
+                  <input id="buy_14+" class="form-control" name="buy_14+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="sell_14+" class="form-control" name="sell_14+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="7_14+" class="form-control" name="7_14+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="buy_price_14+" class="form-control" name="buy_price_14+" value="" type="Text"  style=" width:7.5%; font-size: 0.9vw;  color: black;font-weight: bold;"  readonly="readonly" >
+                  <input id="code_14+" class="form-control" name="code_14+" value="" type="Text"  style=" width:7.5%; margin-right: 18.5%; font-size: 0.9vw; color: black;font-weight: bold;"  readonly="readonly" >  
+                </div>
+              
+</form>
+
+    <script>
+
+      var med_name = JSON.parse('{{ med_name | tojson }}');
+      var med_buy = JSON.parse('{{ med_buy | tojson }}');
+      var med_sell = JSON.parse('{{ med_sell | tojson }}');
+      var med_code = JSON.parse('{{ med_code | tojson }}');
+      const cars = new Array(med_name.length);
+      for(var i=0; i<med_name.length; i++) {
+    cars[i] = [med_name[i] , med_buy[i] , med_sell[i] , med_code[i]] ;
+    }
+
+       document.addEventListener('keydown', function (event) {
+  if (event.keyCode === 13 && event.target.nodeName === 'INPUT') {
+    var form = event.target.form;
+    var index = Array.prototype.indexOf.call(form, event.target);
+    form.elements[index + 1].focus();
+    event.preventDefault();
+  }
+});
+       
+      
+
+       var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() ;
+      var dateTime = date+' | '+time;
+      document.getElementById("date").value = dateTime;       
+
+
+       
+       
+
+       function update1() { 
+        if (document.getElementById('med_1').value == "") {
+          document.getElementsByName('med_1_n')[0].value =0;
+          document.getElementsByName('buy_1')[0].value = '' ;
+            document.getElementsByName('sell_1')[0].value = '' ;
+            document.getElementsByName('code_1')[0].value = '' ;
+            document.getElementsByName('7_1')[0].value = '' ;
+            document.getElementsByName('buy_price_1')[0].value ='' ;
+        }
+        for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_1').value == t )
+          {
+            document.getElementsByName('med_1')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_1').value;
+        var n = document.getElementById('med_1_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_1')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_1')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_1')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_1')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_1')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;
+          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+        }
+
+        function update2() { 
+        if (document.getElementById('med_2').value == "") {
+          document.getElementsByName('med_2_n')[0].value =0;
+          document.getElementsByName('buy_2')[0].value = '' ;
+            document.getElementsByName('sell_2')[0].value = '' ;
+            document.getElementsByName('code_2')[0].value = '' ;
+            document.getElementsByName('7_2')[0].value = '' ;
+            document.getElementsByName('buy_price_2')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_2').value == t )
+          {
+            document.getElementsByName('med_2')[0].value = cars[i][0]
+          }
+        }
+				var select = document.getElementById('med_2').value;
+        var n = document.getElementById('med_2_n').value;
+
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_2')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_2')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_2')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_2')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_2')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+        
+      }
+
+        function update3() { 
+        if (document.getElementById('med_3').value == "") {
+          document.getElementsByName('med_3_n')[0].value =0;
+          document.getElementsByName('buy_3')[0].value = '' ;
+            document.getElementsByName('sell_3')[0].value = '' ;
+            document.getElementsByName('code_3')[0].value = '' ;
+            document.getElementsByName('7_3')[0].value = '' ;
+            document.getElementsByName('buy_price_3')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_3').value == t )
+          {
+            document.getElementsByName('med_3')[0].value = cars[i][0]
+          }
+        } 
+				var select = document.getElementById('med_3').value;
+        var n = document.getElementById('med_3_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_3')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_3')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_3')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_3')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_3')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+        function update4() { 
+        if (document.getElementById('med_4').value == "") {
+          document.getElementsByName('med_4_n')[0].value =0;
+          document.getElementsByName('buy_4')[0].value = '' ;
+            document.getElementsByName('sell_4')[0].value = '' ;
+            document.getElementsByName('code_4')[0].value = '' ;
+            document.getElementsByName('7_4')[0].value = '' ;
+            document.getElementsByName('buy_price_4')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_4').value == t )
+          {
+            document.getElementsByName('med_4')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_4').value;
+        var n = document.getElementById('med_4_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_4')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_4')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_4')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_4')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_4')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+        function update5() { 
+        if (document.getElementById('med_5').value == "") {
+          document.getElementsByName('med_5_n')[0].value =0;
+          document.getElementsByName('buy_5')[0].value = '' ;
+            document.getElementsByName('sell_5')[0].value = '' ;
+            document.getElementsByName('code_5')[0].value = '' ;
+            document.getElementsByName('7_5')[0].value = '' ;
+            document.getElementsByName('buy_price_5')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_5').value == t )
+          {
+            document.getElementsByName('med_5')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_5').value;
+        var n = document.getElementById('med_5_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_5')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_5')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_5')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_5')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_5')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update6() {  
+        if (document.getElementById('med_6').value == "") {
+          document.getElementsByName('med_6_n')[0].value =0;
+          document.getElementsByName('buy_6')[0].value = '' ;
+            document.getElementsByName('sell_6')[0].value = '' ;
+            document.getElementsByName('code_6')[0].value = '' ;
+            document.getElementsByName('7_6')[0].value = '' ;
+            document.getElementsByName('buy_price_6')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_6').value == t )
+          {
+            document.getElementsByName('med_6')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_6').value;
+        var n = document.getElementById('med_6_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_6')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_6')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_6')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_6')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_6')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update7() { 
+        if (document.getElementById('med_7').value == "") {
+          document.getElementsByName('med_7_n')[0].value =0;
+          document.getElementsByName('buy_7')[0].value = '' ;
+            document.getElementsByName('sell_7')[0].value = '' ;
+            document.getElementsByName('code_7')[0].value = '' ;
+            document.getElementsByName('7_7')[0].value = '' ;
+            document.getElementsByName('buy_price_7')[0].value ='' ;
+        }
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_7').value == t )
+          {
+            document.getElementsByName('med_7')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_7').value;
+        var n = document.getElementById('med_7_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_7')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_7')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_7')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_7')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_7')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update8() { 
+        if (document.getElementById('med_8').value == "") {
+          document.getElementsByName('med_8_n')[0].value =0;
+          document.getElementsByName('buy_8')[0].value = '' ;
+            document.getElementsByName('sell_8')[0].value = '' ;
+            document.getElementsByName('code_8')[0].value = '' ;
+            document.getElementsByName('7_8')[0].value = '' ;
+            document.getElementsByName('buy_price_8')[0].value ='' ;
+        }
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_8').value == t )
+          {
+            document.getElementsByName('med_8')[0].value = cars[i][0]
+          }
+        }
+				var select = document.getElementById('med_8').value;
+        var n = document.getElementById('med_8_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_8')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_8')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_8')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_8')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_8')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update9() {  
+        if (document.getElementById('med_9').value == "") {
+          document.getElementsByName('med_9_n')[0].value =0;
+          document.getElementsByName('buy_9')[0].value = '' ;
+            document.getElementsByName('sell_9')[0].value = '' ;
+            document.getElementsByName('code_9')[0].value = '' ;
+            document.getElementsByName('7_9')[0].value = '' ;
+            document.getElementsByName('buy_price_9')[0].value ='' ;
+        }
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_9').value == t )
+          {
+            document.getElementsByName('med_9')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_9').value;
+        var n = document.getElementById('med_9_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_9')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_9')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_9')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_9')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_9')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update10() {
+        if (document.getElementById('med_10').value == "") {
+          document.getElementsByName('med_10_n')[0].value =0;
+          document.getElementsByName('buy_10')[0].value = '' ;
+            document.getElementsByName('sell_10')[0].value = '' ;
+            document.getElementsByName('code_10')[0].value = '' ;
+            document.getElementsByName('7_10')[0].value = '' ;
+            document.getElementsByName('buy_price_10')[0].value ='' ;
+        }
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_10').value == t )
+          {
+            document.getElementsByName('med_10')[0].value = cars[i][0]
+          }
+        } 
+				var select = document.getElementById('med_10').value;
+        var n = document.getElementById('med_10_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_10')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_10')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_10')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_10')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_10')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update11() { 
+        if (document.getElementById('med_11').value == "") {
+          document.getElementsByName('med_11_n')[0].value =0;
+          document.getElementsByName('buy_11')[0].value = '' ;
+            document.getElementsByName('sell_11')[0].value = '' ;
+            document.getElementsByName('code_11')[0].value = '' ;
+            document.getElementsByName('7_11')[0].value = '' ;
+            document.getElementsByName('buy_price_11')[0].value ='' ;
+        }
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_11').value == t )
+          {
+            document.getElementsByName('med_11')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_11').value;
+        var n = document.getElementById('med_11_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_11')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_11')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_11')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_11')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_11')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update12() { 
+        if (document.getElementById('med_12').value == "") {
+          document.getElementsByName('med_12_n')[0].value =0;
+          document.getElementsByName('buy_12')[0].value = '' ;
+            document.getElementsByName('sell_12')[0].value = '' ;
+            document.getElementsByName('code_12')[0].value = '' ;
+            document.getElementsByName('7_12')[0].value = '' ;
+            document.getElementsByName('buy_price_12')[0].value ='' ;
+        }
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_12').value == t )
+          {
+            document.getElementsByName('med_12')[0].value = cars[i][0]
+          }
+        }
+				var select = document.getElementById('med_12').value;
+        var n = document.getElementById('med_12_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_12')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_12')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_12')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_12')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_12')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update13() { 
+        if (document.getElementById('med_13').value == "") {
+          document.getElementsByName('med_13_n')[0].value =0;
+          document.getElementsByName('buy_13')[0].value = '' ;
+            document.getElementsByName('sell_13')[0].value = '' ;
+            document.getElementsByName('code_13')[0].value = '' ;
+            document.getElementsByName('7_13')[0].value = '' ;
+            document.getElementsByName('buy_price_13')[0].value ='' ;
+        }
+
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_13').value == t )
+          {
+            document.getElementsByName('med_13')[0].value = cars[i][0]
+          }
+        }
+				var select = document.getElementById('med_13').value;
+        var n = document.getElementById('med_13_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_13')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_13')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_13')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_13')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_13')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+        function update14() {   
+        if (document.getElementById('med_14').value == "") {
+          document.getElementsByName('med_14_n')[0].value =0;
+          document.getElementsByName('buy_14')[0].value = '' ;
+            document.getElementsByName('sell_14')[0].value = '' ;
+            document.getElementsByName('code_14')[0].value = '' ;
+            document.getElementsByName('7_14')[0].value = '' ;
+            document.getElementsByName('buy_price_14')[0].value ='' ;
+        }
+
+
+          for (let i = 0; i < cars.length; i++) 
+        {
+          let t = i +1
+          if (document.getElementById('med_14').value == t )
+          {
+            document.getElementsByName('med_14')[0].value = cars[i][0]
+          }
+        }
+
+				var select = document.getElementById('med_14').value;
+        var n = document.getElementById('med_14_n').value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName('buy_14')[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName('sell_14')[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName('code_14')[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName('7_14')[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName('buy_price_14')[0].value = Math.round(cars[i][2]*n * 100) / 100 ;          }
+        }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value) ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+      }
+
+      
+
+    
+      for (let u = 1; u < 15; u++) 
+        {
+          
+      var select = document.getElementById(`med_${u}`).value;
+        var n = document.getElementById(`med_${u}_n`).value;
+				for (let i = 0; i < cars.length; i++) 
+        {
+          if (select == cars[i][0]) 
+          {
+            document.getElementsByName(`buy_${u}`)[0].value = Math.round(cars[i][1] * 100) / 100 ;
+            document.getElementsByName(`sell_${u}`)[0].value = Math.round(cars[i][2] * 100) / 100 ;
+            document.getElementsByName(`code_${u}`)[0].value = Math.round(cars[i][3] * 100) / 100 ;
+            document.getElementsByName(`7_${u}`)[0].value = Math.round((cars[i][2] - cars[i][1]) * 100) / 100 ;
+            document.getElementsByName(`buy_price_${u}`)[0].value = Math.round(cars[i][2]*n * 100) / 100 ;
+          }
+        }
+    }
+        t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value)  ;
+        document.getElementsByName('total')[0].value =  Math.round(t* 100) / 100;
+
+
+        
+			
+        function updatecopy() { 
+
+
+
+     
+for (let c = 1; c < 15; c++) 
+    {
+      
+  
+        document.getElementsByName(`med_${c}+`)[0].value = document.getElementsByName(`med_${c}`)[0].value ;
+        document.getElementsByName(`med_${c}_n+`)[0].value = document.getElementsByName(`med_${c}_n`)[0].value ;
+        document.getElementsByName(`buy_${c}+`)[0].value = document.getElementsByName(`buy_${c}`)[0].value ;
+        document.getElementsByName(`sell_${c}+`)[0].value = document.getElementsByName(`sell_${c}`)[0].value ;
+        document.getElementsByName(`code_${c}+`)[0].value = document.getElementsByName(`code_${c}`)[0].value ;
+        document.getElementsByName(`7_${c}+`)[0].value = document.getElementsByName(`7_${c}`)[0].value ;
+        document.getElementsByName(`buy_price_${c}+`)[0].value = document.getElementsByName(`buy_price_${c}`)[0].value ;
+     
+   }
+   document.getElementsByName(`date+`)[0].value = document.getElementsByName(`date`)[0].value ;
+   document.getElementsByName(`dec_num+`)[0].value = document.getElementsByName(`dec_num`)[0].value ;
+   document.getElementsByName(`rec_num+`)[0].value = document.getElementsByName(`rec_num`)[0].value ;
+   document.getElementsByName(`section+`)[0].value = document.getElementsByName(`section`)[0].value ;
+   document.getElementsByName(`pharmacist+`)[0].value = document.getElementsByName(`pharmacist`)[0].value ;
+   document.getElementsByName(`credit+`)[0].value = document.getElementsByName(`credit`)[0].value ;
+   document.getElementsByName(`note+`)[0].value = document.getElementsByName(`note`)[0].value ;
+
+    t = Number(document.getElementsByName('buy_price_1')[0].value) + Number(document.getElementsByName('buy_price_2')[0].value) + Number(document.getElementsByName('buy_price_3')[0].value) + Number(document.getElementsByName('buy_price_4')[0].value) + Number(document.getElementsByName('buy_price_5')[0].value) + Number(document.getElementsByName('buy_price_6')[0].value) + Number(document.getElementsByName('buy_price_7')[0].value) + Number(document.getElementsByName('buy_price_8')[0].value) + Number(document.getElementsByName('buy_price_9')[0].value) + Number(document.getElementsByName('buy_price_10')[0].value) + Number(document.getElementsByName('buy_price_11')[0].value) + Number(document.getElementsByName('buy_price_12')[0].value) + Number(document.getElementsByName('buy_price_13')[0].value) + Number(document.getElementsByName('buy_price_14')[0].value)  ;
+    document.getElementsByName('total+')[0].value =  Math.round(t* 100) / 100;
+
+
+document.getElementById("print_copy").hidden = false;	
+document.getElementById("side").hidden = true;
+document.getElementById("error").hidden = true;				
+window.print()
+ 
+ 
+    }
+            
+
+    </script>
+
+
+
+
+{% endblock %}

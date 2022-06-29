@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/login" method="post" style="padding-right: 18vw; padding-top: 7vw;">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text" style="padding:30px; margin-top: 3vw; text-align: right;margin-bottom: .5vw ;border-color: #a9a9a9 ; width: 20vw ; height: 4vw ; font-size: 1.5vw ;border-radius: 1.5vw; background-color: #ffffff;" >
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password" style="padding:30px; margin-top: 0vw; text-align: right;margin-bottom: 0vw ;border-color: #a9a9a9 ; width: 20vw ; height: 4vw ; font-size: 1.5vw ;border-radius: 1.5vw; background-color: #ffffff;" >
+        </div>
+        <button class="btn btn-primary" type="submit" style= " border-radius: 1.5vw; margin-top: 1.5vw; font-size: 1.3vw; height: 3.5vw ; width: 10vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular';">Log In</button>
+        <p id="error" style="margin-top:20px; color:red;"  >{{wrong}}</p>
+    </form>
+    <script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
+        
+{% endblock %}

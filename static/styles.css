@@ -1,0 +1,125 @@
+
+@font-face {
+  font-family: "Tajawal-Regular";
+  src: url('/static/fonts/Tajawal-Regular.ttf') format('truetype'),
+  url("/static/fonts/Tajawal-Regular.woff") format("woff");
+  }
+
+@font-face {
+    font-family: "Tajawal-Regular";
+    src: url('/static/fonts/bold2/Tajawal-ExtraBold.ttf') format('truetype'),
+    url("/static/fonts/bold2/Tajawal-ExtraBold.woff") format("woff");
+    font-weight: bold;
+} 
+
+body{
+  font-family: "Tajawal-Regular";
+}
+main .form-control
+{
+    /* Center form controls */
+    display: inline-block;
+
+    /* Override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* Scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* Center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* Constrain images on small screens */
+    max-width: 100%;
+}
+
+body {
+  background-color: #07161f;
+}
+
+.cure {
+  font-family: 'Helvetica';
+  font-size: 2.2vw;
+font-weight: 700%;
+color: #ffffff;
+
+}
+
+
+
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+    body {
+        zoom: 80%;
+    }
+  }
+
+@media print {
+    body {
+      zoom: 170%;
+   
+        
+        
+      
+    }
+    
+
+      input[type=text] {
+        padding: 0px 0px;
+        margin: 0px 0;
+        box-sizing: border-box;
+        text-align: center;
+        border-color: black; border-width: 2px;
+      }
+      
+      input[type=number] {
+        padding: 0px 0px;
+        margin: 0px 0;
+        box-sizing: border-box;
+        text-align: center;
+        border-color: black; border-width: 2px;
+      }
+      select[type=text] {
+        padding: 0px 0px;
+        margin: 0px 0;
+        box-sizing: border-box;
+        text-align: center;
+        border-color: black; border-width: 2px;
+        
+      }
+      select[type=number] {
+        padding: 0px 0px;
+        margin: 0px 0;
+        box-sizing: border-box;
+        text-align: center;
+        border-color: black; border-width: 2px;
+      }
+
+    .buy_1 {border-style: solid;}
+    #h { display: none; };
+    #printable { display: block; };
+    #error { display: none; };
+    #side { display: none; };
+  }
+
+ 

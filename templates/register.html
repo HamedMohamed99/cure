@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+
+<form name="myForm" action="/register" method="post"style="padding-right: 18vw; padding-top: 7vw;" onkeydown="return event.key != 'Enter';" >
+    <div><p id="error" style="font-size: 1.5vw; color:red;"  >{{wrong}}</p></div>
+    <div id="div" class="form-group">
+        <input id="new_name" class="form-control" name="new_name" autocomplete="off" value="{{name_copy}}" placeholder="...أسم المريض" type="Text"  style="padding:30px; margin-top: 3vw; text-align: right;margin-bottom: .5vw ;border-color: #a9a9a9 ; width: 20vw ; height: 4vw ; font-size: 1.5vw ;border-radius: 1.5vw; background-color: #ffffff;"  >
+    </div>
+
+    <div id="div" class="form-group">
+        <button type="submit" name="action" value="three"  style= " border-radius: 1.5vw; font-size: 1.3vw; height: 3.5vw ;margin-right: 2vw; width: 6vw; background-color: #416baf; border-color: #416baf; font-family: 'Tajawal-Regular'; color: white;">لصق</button>
+
+        <input id="new_id" class="form-control" name="new_id" autocomplete="off" value="{{id_copy}}" placeholder="...الرقم القومي" type="number"  style=" margin-right: 8.3vw; text-align: right; margin-bottom: .5vw ;border-color: #a9a9a9 ; width: 20vw ; height: 4vw ; font-size: 1.5vw ;border-radius: 1.5vw; background-color: #ffffff;"  >
+    </div>
+
+    <button class="btn btn-primary" type="submit" name="action" value="one" style= " border-radius: 1.5vw; margin-top: 1.5vw; font-size: 1.3vw; height: 3.5vw ; width: 10vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular'; ">تسجيل</button>
+    
+</form>
+      
+      
+
+
+    
+    
+    
+
+
+
+{% endblock %}

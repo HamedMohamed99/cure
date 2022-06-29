@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+<form method="post" id="body" action="/med_list" style="padding-right: 18vw; padding-top: 2vw; color: #305b75;" >
+
+  
+
+    
+</form>
+
+<script>
+    
+    var med_name = JSON.parse('{{ med_name | tojson }}');
+    var med_buy = JSON.parse('{{ med_buy | tojson }}');
+    var med_sell = JSON.parse('{{ med_sell | tojson }}');
+    var med_code = JSON.parse('{{ med_code | tojson }}');
+        
+        var meds = `<div>`
+        meds += `<input class="form-control" name="" autocomplete="off" value="الكود" type="text"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `<input class="form-control" name="" autocomplete="off" value="سعر البيع" type="text"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `<input class="form-control" name="" autocomplete="off" value="سعر الشراء" type="text"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `<input class="form-control" name="" autocomplete="off" value="الصنف" type="text"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 12vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `<input class="form-control" name="" autocomplete="off" value="الكود السريع" type="text"  style=" margin-right: .3vw;  text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `</div>`
+    
+    for(var i=0; i<med_name.length; i++) {
+        meds += `<div>`;
+        meds += `<input id="med_code_`+ i+`" class="form-control" name="med_code_`+ i+`" autocomplete="off" step="any" value="`+med_code[i]+`" type="number"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #152833 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #152833;"  >`;
+        meds += `<input id="med_sell_`+ i+`" class="form-control" name="med_sell_`+ i+`" autocomplete="off" step="any" value="`+med_sell[i]+`" type="number"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #152833 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #152833;" oninput="update()" >`;
+        meds += `<input id="med_buy_`+ i+`" class="form-control" name="med_buy_`+ i+`" autocomplete="off" step="any" value="`+med_buy[i]+`" type="number"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #152833 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #152833;" oninput="update()" >`;
+        meds += `<input id="med_name_`+ i+`" class="form-control" name="med_name_`+ i+`" autocomplete="off" value="`+med_name[i]+`" type="text"  style=" margin-right: .3vw; text-align: center; margin-bottom: .5vw ;border-color: #152833 ; width: 12vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #152833;" oninput="update()" >`;
+        meds += `<input class="form-control" name="" autocomplete="off" value="`+[i+1]+`" type="text"  style=" margin-right: .3vw;  text-align: center; margin-bottom: .5vw ;border-color: #305b75 ; width: 7vw ; height: 3vw ; font-size: 1vw ;border-radius: 0vw;color:white; background-color: #305b75;" disabled >`;
+        meds += `</div>`;
+
+    };
+
+        meds += ` <button class="btn btn-primary" type="submit" id="h" name="action" value="one" style= " border-radius: 1.5vw; margin-top: 1.5vw; font-size: 1.3vw; height: 3.5vw ; width: 10vw; background-color: #32ab40; border-color: #32ab40; font-family: 'Tajawal-Regular'; " disabled>حفظ التعديل</button>`;
+      
+      document.getElementById("body").innerHTML =  meds;
+
+       
+    function update() { count = 0;
+        for(var i=0; i<med_name.length; i++) {
+
+            if(document.getElementById("med_name_"+i+"").value !== ""){
+                if(document.getElementById("med_buy_"+i+"").value !== ""){
+                    if(document.getElementById("med_sell_"+i+"").value !== ""){
+                         count += 1; 
+                    }
+                }
+            }
+        }
+
+        if(count == [med_name.length]){document.getElementById("h").disabled = false;}
+        else {document.getElementById("h").disabled = true;}
+    };
+
+
+      
+</script>
+
+{% endblock %}
+
+
+
